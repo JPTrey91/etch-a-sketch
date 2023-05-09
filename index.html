@@ -15,23 +15,27 @@
     </div>
     <script>
         const dimensionButton = document.getElementById("grid-size")
-        const gridContainer = document.getElementById("grid-container")
-        const grid = document.getElementById("grid")
 
         function setGridDimensions() {
+            const grid = document.getElementById("grid")
             const dimension = +prompt("How wide would you like the grid to be?")
+            const gridContainer = document.getElementById("grid-container")
             if (!Number.isInteger(dimension)) {
                 alert("Please select a number between 1 and 100")
                 return;
             }
             const width = (1/dimension*100)
             console.log(width)
+            grid.remove()
+            const newGrid = document.createElement('div')
+            newGrid.setAttribute('id','grid')
+            gridContainer.appendChild(newGrid)
             for (let i=1;i<=dimension*dimension;i++) {
                 const newCell = document.createElement('div')
                 newCell.classList.add("cell")
                 newCell.style.width= width + "%"
                 newCell.style.height= width + "%"
-                grid.appendChild(newCell)
+                newGrid.appendChild(newCell)
             }
         }
 
