@@ -20,7 +20,7 @@
             const grid = document.getElementById("grid")
             const dimension = +prompt("How wide would you like the grid to be?")
             const gridContainer = document.getElementById("grid-container")
-            if (!Number.isInteger(dimension)) {
+            if (!Number.isInteger(dimension) || dimension>100 || dimension<1) {
                 alert("Please select a number between 1 and 100")
                 return;
             }
