@@ -14,7 +14,7 @@ body {
     padding:5px 10px 5px 10px;
     color:white;
     background-color:black;
-    margin-bottom:20px;
+    margin-bottom:40px;
     font-size:16px;
     border-radius:5px;
 }
@@ -49,7 +49,7 @@ body {
     align-items:center;
     font-size:16px;
     font-family:sans-serif;
-    width:400px;
+    width:300px;
     padding:20px;
     background-color:rgb(255, 255, 255);
     border: 1px solid gray;
