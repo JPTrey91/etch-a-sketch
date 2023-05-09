@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button ID="grid-size">Set Grid Dimensions</button>
+    <img ID="header-image" src ="etch-a-sketch.svg">
+    <button ID="grid-dimension-button">Set Grid Dimensions</button>
     <div ID="grid-container">
         <div ID="grid">
-
+            <div ID="welcome-text">
+            <b>Welcome to etch-a-sketch!</b><br> This works just like a traditional etch-a-sketch
+            in that you will be drawing continously the moment your mouse enters the
+            drawing area. Please click the button above to select the dimensions you'd
+            like to work with (e.g. entering '50' would give you a 50x50 grid). Enjoy!
+            </div>
         </div>
     </div>
     <script>
-        const dimensionButton = document.getElementById("grid-size")
-        
-        function setBlack() {
-            this.style.background = "black"
-        }
+        const dimensionButton = document.getElementById("grid-dimension-button")
+        dimensionButton.addEventListener("click",resetGrid)
 
-        function setGridDimensions() {
+        function resetGrid() {
             const grid = document.getElementById("grid")
             const dimension = +prompt("How wide would you like the grid to be?")
             const gridContainer = document.getElementById("grid-container")
@@ -44,9 +47,13 @@
                 newGrid.appendChild(newCell)
             }
         }
+
+        function setBlack() {
+            this.style.background = "black"
+        }
+
         
 
-        dimensionButton.addEventListener("click",setGridDimensions)
     </script>
 </body>
 </html>
