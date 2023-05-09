@@ -9,7 +9,8 @@ body {
     background-image: url("paper-background.png")
 }
 
-#grid-dimension-button {
+#grid-dimension-button,
+#clear-button {
     padding:5px 10px 5px 10px;
     color:white;
     background-color:black;
@@ -18,7 +19,8 @@ body {
     border-radius:5px;
 }
 
-#grid-dimension-button:hover {
+#grid-dimension-button:hover,
+#clear-button:hover {
     background-color: #424242;
 }
 
