@@ -15,14 +15,19 @@
     </div>
     <script>
         const dimensionButton = document.getElementById("grid-size")
+        
+        function setBlack() {
+            this.style.background = "black"
+        }
 
         function setGridDimensions() {
             const grid = document.getElementById("grid")
             const dimension = +prompt("How wide would you like the grid to be?")
             const gridContainer = document.getElementById("grid-container")
+            if (dimension===0) {return}
             if (!Number.isInteger(dimension) || dimension>100 || dimension<1) {
                 alert("Please select a number between 1 and 100")
-                return;
+                return
             }
             const width = (1/dimension*100)
             console.log(width)
@@ -35,9 +40,11 @@
                 newCell.classList.add("cell")
                 newCell.style.width= width + "%"
                 newCell.style.height= width + "%"
+                newCell.addEventListener("mouseenter", setBlack)
                 newGrid.appendChild(newCell)
             }
         }
+        
 
         dimensionButton.addEventListener("click",setGridDimensions)
     </script>
