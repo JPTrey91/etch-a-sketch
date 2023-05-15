@@ -59,6 +59,39 @@ body {
     background-color: white;
 }
 
+    .cell.painted {
+        background-color: black;
+    }
+
+    .rainbow-mode .cell.painted {
+        background-color: red;
+    }
+
+    /* Rainbow mode */
+    .rainbow-mode .cell.painted[data-paint-layers="2"] {
+        background-color: orange;
+    }
+
+    .rainbow-mode .cell.painted[data-paint-layers="3"] {
+        background-color: yellow;
+    }
+
+    .rainbow-mode .cell.painted[data-paint-layers="4"] {
+        background-color: green;
+    }
+
+    .rainbow-mode .cell.painted[data-paint-layers="5"] {
+        background-color: blue;
+    }
+
+    .rainbow-mode .cell.painted[data-paint-layers="6"] {
+        background-color: indigo;
+    }
+
+    .rainbow-mode .cell.painted[data-paint-layers="7"] {
+        background-color: violet;
+    }
+
 #header-image {
     width:65vh;
     margin-bottom:20px;

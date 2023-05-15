@@ -9,8 +9,10 @@
 <body>
     <img ID="header-image" src ="etch-a-sketch.svg">
     <div style="display:flex; flex-direction:row; gap:10px;">
-        <button onclick="setDimensions()" ID="grid-dimension-button">Set Grid Dimensions</button>
-        <button onclick="clearGrid()" ID="clear-button">Clear Canvas</button>
+        <button ID="grid-dimension-button" onclick="generateGrid()">Set Grid Dimensions</button>
+        <button ID="clear-button" onclick="clearGrid()">Clear Canvas</button>
+        <label><input type="checkbox" ID="rainbow-mode" onclick="toggleRainbowMode()">Rainbow Mode</label>
+        <label><input type="checkbox" ID="cycle-rainbow" onclick="toggleRainbowCycle()" disabled>Cycle Colors</label>
     </div>
     <div ID="grid-container">
         <div ID="grid">
@@ -25,41 +27,108 @@
     </div>
     <script>
         const gridContainer = document.getElementById("grid-container")
+        const grid = document.getElementById("grid")
+        const paintedCells = []
+        const rainbowModeToggle = document.getElementById("rainbow-mode")
+        const cycleRainbowToggle = document.getElementById("cycle-rainbow")
+        let isCycleRunning = false;
+        const cycleLength = 7;
+        let cycleDuration = 200;
 
-        function setDimensions() {
-            const grid = document.getElementById("grid")
-            grid.remove()
+        /**
+         * Prompts user to enter a dimension for the grid
+         */
+        function generateGrid() {
             const dimension = +prompt("How wide would you like the grid to be?")
             if (dimension===0) {return}
             if (!Number.isInteger(dimension) || dimension>100 || dimension<1) {
                 alert("Please select a number between 1 and 100")
                 return
             }
+            fillGrid(dimension)
+        }
+
+        /**
+         * Fills the grid with cells based on the dimension provided
+         * @param {number} dimension 
+         */
+        function fillGrid(dimension) {
+            // clear existing grid
+            while(grid.firstChild) {
+                grid.removeChild(grid.firstChild)
+            }
+
+            // create new grid
             const width = (1/dimension*100)
-            const newGrid = document.createElement('div')
-            newGrid.setAttribute('id','grid')
-            gridContainer.appendChild(newGrid)
             for (let i=1;i<=dimension*dimension;i++) {
                 const newCell = document.createElement('div')
                 newCell.classList.add("cell")
                 newCell.style.width= width + "%"
                 newCell.style.height= width + "%"
-                newCell.addEventListener("mouseenter", setBlack)
-                newGrid.appendChild(newCell)
+                newCell.addEventListener("mouseenter", () => {
+                    
+                    // if cell is not painted, paint it
+                    if (!paintedCells.includes(newCell)) {
+                        newCell.classList.add('painted')
+                        newCell.dataset.paintLayers = 1;
+                        paintedCells.push(newCell)
+
+                    // else if rainbow mode is on, set the background color to next color
+                    } else if (rainbowModeToggle.checked) {
+                        let paintLayers = parseInt(newCell.dataset.paintLayers);
+                        if (paintLayers===7) {
+                            paintLayers = 0;
+                        }
+                        newCell.dataset.paintLayers = paintLayers + 1;
+                    }
+                })
+                grid.appendChild(newCell)
             }
         }
 
-        function clearGrid() {
-            const cells = document.querySelectorAll('.cell')
-            cells.forEach(cell => {
-                cell.style.backgroundColor = 'white'
+        /** 
+         * Clears the grid by removing the 'painted' class from all cells
+         */
+         function clearGrid() {
+            paintedCells.forEach(cell => {
+                cell.classList = "cell"
+            })
+            paintedCells.splice(0, paintedCells.length)
+        }
+
+        function toggleRainbowMode() {
+            if (document.getElementById("rainbow-mode").checked) {
+                gridContainer.classList.add("rainbow-mode")
+                // enable cycle rainbow toggle
+                cycleRainbowToggle.disabled = false;
+            } else {
+                gridContainer.classList.remove("rainbow-mode")
+                // disable cycle rainbow toggle
+                cycleRainbowToggle.disabled = true;
+            }
+        }
+
+        function toggleRainbowCycle() {
+
+            // run every 300ms
+            if (rainbowModeToggle.checked && !isCycleRunning) {
+                isCycleRunning = true
+                setInterval(() => {
+                   cycleColors()
+                }, cycleDuration)
+            } 
+        }
+
+        function cycleColors()  {
+            const layerIncrementAmount = (cycleRainbowToggle.checked) ? 1 : 0;
+            paintedCells.forEach(cell => {
+                let paintLayers = parseInt(cell.dataset.paintLayers);
+                if (paintLayers===cycleLength) {
+                    paintLayers = 0;
+                }
+                cell.dataset.paintLayers = paintLayers + layerIncrementAmount;
             })
         }
-
-        function setBlack() {
-            this.style.background = "black"
-        }
-
     </script>
 </body>
 </html>
