@@ -9,8 +9,8 @@
 <body>
     <img ID="header-image" src ="etch-a-sketch.svg">
     <div style="display:flex; flex-direction:row; gap:10px;">
-        <button onclick="resetDimensions()" ID="grid-dimension-button">Set Grid Dimensions</button>
-        <button onclick="redrawGrid()" ID="clear-button">Clear Canvas</button>
+        <button onclick="setDimensions()" ID="grid-dimension-button">Set Grid Dimensions</button>
+        <button onclick="clearGrid()" ID="clear-button">Clear Canvas</button>
     </div>
     <div ID="grid-container">
         <div ID="grid">
@@ -25,23 +25,17 @@
     </div>
     <script>
         const gridContainer = document.getElementById("grid-container")
-        let dimension = 0
 
-        function resetDimensions() {
+        function setDimensions() {
             const grid = document.getElementById("grid")
-            dimension = +prompt("How wide would you like the grid to be?")
+            grid.remove()
+            const dimension = +prompt("How wide would you like the grid to be?")
             if (dimension===0) {return}
             if (!Number.isInteger(dimension) || dimension>100 || dimension<1) {
                 alert("Please select a number between 1 and 100")
                 return
             }
-            redrawGrid()
-        }
-
-        function redrawGrid() {
-            const grid = document.getElementById("grid")
             const width = (1/dimension*100)
-            grid.remove()
             const newGrid = document.createElement('div')
             newGrid.setAttribute('id','grid')
             gridContainer.appendChild(newGrid)
@@ -55,11 +49,16 @@
             }
         }
 
+        function clearGrid() {
+            const cells = document.querySelectorAll('.cell')
+            cells.forEach(cell => {
+                cell.style.backgroundColor = 'white'
+            })
+        }
+
         function setBlack() {
             this.style.background = "black"
         }
-
-        
 
     </script>
 </body>
